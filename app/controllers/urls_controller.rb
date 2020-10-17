@@ -3,7 +3,7 @@
 class UrlsController < ApplicationController
   def create
     # binding.pry
-    @url = check_url_exist || Url.new(urls_params)
+    @url = check_url_exist || Url.new(url_params)
     if @url.id
       render json: { status: 200, url: @url}
     elsif @url.save
@@ -30,10 +30,10 @@ class UrlsController < ApplicationController
   end
 
   def check_url_exist
-    Url.find_by(original_url: params['urls']['original_url'])
+    Url.find_by(original_url: params['url']['original_url'])
   end
 
-  def urls_params
-    params.require(:urls).permit(:original_url)
+  def url_params
+    params.require(:url).permit(:original_url)
   end
 end
