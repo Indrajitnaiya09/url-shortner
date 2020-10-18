@@ -32,18 +32,43 @@ The following steps walk through getting the application running. Before you sta
 
 
 #### 1. Clone the project
-1. Navigate to your project's chosen parent directory, e.g. `cd ~/Documents/assignment`
+1. Navigate to your project's chosen parent directory, e.g. `$ cd ~/Documents/assignment`
 2. [Clone the project](https://help.github.com/articles/cloning-a-repository/), e.g. `git clone https://github.com/Indrajitnaiya09/url-shortner.git`
-3. Navigate into the project directory: `cd url-shortner`
+3. Navigate into the project directory: `$ cd url-shortner`
+4. [Clone the project](https://help.github.com/articles/cloning-a-repository/), e.g. `git clone https://github.com/Indrajitnaiya09/url-shortner-front-end.git`
+5. Navigate into the project directory: `$ cd url-shortner-front-end`
 
 #### 2. Install and set up the environment
-* Go to config/enviroment/development.rb and config (line no 10) the value according to your setup
+
+* Go to config/enviroment/development.rb and config (line no 10) the value according to your setup (whitelist your ngrok url)
+ for nrgok download and set-up please follow -> https://ngrok.com/download
 
 ```
 config.hosts << 'fa88515f0a59.ngrok.io'
 ```
 
-* Go to config/database.yml and config (line no 10) the value according to your setup
+* Make sure your Ruby version 2.7.1, Rails 6.0.3.4 and PostgreSQL 12 React 16.14.0 how to check?
+
+```
+$ ruby -v
+$ rails -v
+$ psql --version
+$ npm view react version
+$ bundle
+$ rails db:create
+$ rails db:migrate
+$ rails db:seed
+```
+
+* If there is any missmatch please open the link and follow the instruction.
+
+1. Ruby installation -> https://gorails.com/setup/osx/10.15-catalina
+2. PostgreSQL installation -> https://www.postgresql.org/
+3. React set-up -> https://www.youtube.com/watch?v=00kXjx9k3Os
+
+
+* Go to config/database.yml and config the value according to your setup
+
 
 #### 3. Run the tests
 
@@ -60,16 +85,19 @@ bundle exec rspec spec/requests/urls_spec.rb 10
 ```
 
 #### 4. Start the app
-* Make sure your Ruby version 2.7.1, Rails 6.0.3.4 and PostgreSQL 12 React 16.14.0 how to check?
+
 ```
-$ ruby -v
-$ rails -v
-$ psql --version
-$ npm view react version
+$ cd url_shortner
+$ rails s -p 4000
+$ cd url-shortner-front-end
+$ npm install
+$ npm start 
+
 ```
 
-* If there is any missmatch please open the link and follow the instruction.
 
-1. Ruby installation -> https://gorails.com/setup/osx/10.15-catalina
-2. PostgreSQL installation -> https://www.postgresql.org/
-3. React set-up -> https://www.youtube.com/watch?v=00kXjx9k3Os
+##### 5. Documentation
+
+1. Requirement Doc : https://docs.google.com/document/d/1Gd0Jh6-jDO3QuC6rlOZHutIrVes5UH3NshvkKLIbh4o/edit?usp=sharing
+2. Design Doc: https://docs.google.com/document/d/1hmQZVZjYwfLdNJ4JATXs5Ye02LL7gsOHbi-WoIV5y-s/edit?usp=sharing
+3. ADA Doc: https://docs.google.com/document/d/18_NMvfOn5kKXe5uxoUt97q5SkSYAOc9gP4IkinWWJfA/edit?usp=sharing

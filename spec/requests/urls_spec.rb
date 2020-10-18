@@ -15,7 +15,7 @@ RSpec.describe 'Urls', type: :request do
       it 'should return short url' do
         post urls_path,
         params: {
-          "urls": @url1.attributes
+          "url": @url1.attributes
         }
 
         expect(response).to have_http_status(200)
@@ -25,35 +25,69 @@ RSpec.describe 'Urls', type: :request do
       it 'should invalidate if enter url is an empty' do
         post urls_path,
         params: {
-          "urls": @url2.attributes
+          "url": @url2.attributes
         }
-        response_data = JSON.parse(response.body)
-        type = response_data['original_url'].include? 'You provided invalid URL'
 
-        expect(response).to have_http_status(422)
+        response_data = JSON.parse(response.body)
+        type = response_data['url']['original_url'].include? 'You provided invalid URL'
+
+        expect(response_data['status']).to eq(422)
         expect(type).to eq(true)
       end
       it 'should invalidate if enter url is an empty string' do
         post urls_path,
         params: {
-          "urls": @url3.attributes
+          "url": @url3.attributes
         }
         response_data = JSON.parse(response.body)
-        type = response_data['original_url'].include? 'You provided invalid URL'
+        type = response_data['url']['original_url'].include? 'You provided invalid URL'
 
-        expect(response).to have_http_status(422)
+        expect(response_data['status']).to eq(422)
         expect(type).to eq(true)
       end
       it 'should invalidate if it contain space' do
         post urls_path,
         params: {
-          "urls": @url4.attributes
+          "url": @url4.attributes
         }
         response_data = JSON.parse(response.body)
-        type = response_data['original_url'].include? 'You provided invalid URL'
+        type = response_data['url']['original_url'].include? 'You provided invalid URL'
 
-        expect(response).to have_http_status(422)
+        expect(response_data['status']).to eq(422)
         expect(type).to eq(true)
+      end
+    end
+  end
+  context '#GET /stat' do
+    describe 'Analysis Report' do
+      it 'should return statistic report for each url' do
+        post urls_path,
+        params: {
+          "url": @url1.attributes
+        }
+        get stat_path
+
+        response_data = JSON.parse(response.body)
+        expect(response_data['status']).to eq(200)
+        expect(response_data['urls'].count).to eq(1)
+      end
+    end
+  end
+  context '#GET /unique_name' do
+    describe 'entered invalidate short url' do
+      it 'should not redirect to main website' do
+        post urls_path,
+        params: {
+          "url": @url1.attributes
+        }
+        response_data1 = JSON.parse(response.body)
+        short_url = response_data1['url']['short_url']
+
+        get urls_path(short_url)
+
+        response_data2 = JSON.parse(response.body)
+        expect(response_data2['status']).to eq(404)
+        expect(response_data2['message']).to eq('Data you are looking for does not exist')
       end
     end
   end
